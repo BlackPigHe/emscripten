@@ -53,7 +53,7 @@ Welcome to the emscripten wiki!
 
 
        * emcc -O0 .libs/libopus.a -s EXPORTED_RUNTIME_METHODS="['_opus_decode','_opus_decoder_create','_opus_decoder_destroy']" \
-                                -s EXPORTED_RUNTIME_METHODS="['cwrap','getValue','setValue']" \
+                                -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap','getValue','setValue']" \
                                 -s ALLOW_MEMORY_GROWTH=1 \
                                 -o decoder.js
 5. 进行胶水代码加载wasm
