@@ -52,8 +52,8 @@ Welcome to the emscripten wiki!
       最终编译命令为
 
 
-       * emcc -O0 .libs/libopus.a -s EXPORTED_RUNTIME_METHODS="['_opus_decode','_opus_decoder_create','_opus_decoder_destroy']" \
-                                -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap','getValue','setValue']" \
+       * emcc -O0 .libs/libopus.a -s EXPORTED_METHODS="['_opus_decode','_opus_decoder_create','_opus_decoder_destroy']" \
+                                -s EXPORTED_RUNTIME_METHODS=['FS_createFolder','FS_createPath','FS_createDataFile','FS_createPreloadedFile','FS_createLazyFile','FS_createLink','FS_createDevice','FS_unlink','ccall','cwrap','setValue','getValue','ALLOC_NORMAL','ALLOC_STACK','ALLOC_DYNAMIC','ALLOC_NONE','allocate','getMemory','AsciiToString','stringToAscii','UTF8ArrayToString','UTF8ToString','stringToUTF8Array','stringToUTF8','lengthBytesUTF8','stackTrace','addOnPreRun','addOnInit','addOnPreMain','addOnExit','addOnPostRun','intArrayFromString','intArrayToString','writeStringToMemory','writeArrayToMemory','writeAsciiToMemory','addRunDependency','removeRunDependency'] \
                                 -s ALLOW_MEMORY_GROWTH=1 \
                                 -o decoder.js
 5. 进行胶水代码加载wasm
