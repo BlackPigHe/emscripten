@@ -1,7 +1,3 @@
-# emscripten
-使用emscripten打包一个完整的项目，作为前端js的解码工具。c库为开源的opus。操作详细介绍，知识前提docker，c++编译，基础的emscripten的认知，js的基础知识
-
-
 Welcome to the emscripten wiki!
 该项目将指导新手玩家怎么将一个**opus音频库**，编译为js，并运行在**浏览器中。**
 # emscripten环境搭建
@@ -46,18 +42,33 @@ Welcome to the emscripten wiki!
 
 
            -s 参数说明https://github.com/emscripten-core/emscripten/blob/master/src/settings.js
+
+
            例如：-s EXPORTED_RUNTIME_METHODS=[] 导出运行函数，可以操作wasm进行运行时的内存读写
+
+-s EXPORTED_FUNCTIONS="['_opus_decode','_opus_decoder_create','_opus_decoder_destroy']" -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=['FS_createFolder','FS_createPath','FS_createDataFile','FS_createPreloadedFile','FS_createLazyFile','FS_createLink','FS_createDevice','FS_unlink','ccall','cwrap','setValue','getValue','ALLOC_NORMAL','ALLOC_STACK','ALLOC_DYNAMIC','ALLOC_NONE','allocate','getMemory','AsciiToString','stringToAscii','UTF8ArrayToString','UTF8ToString','stringToUTF8Array','stringToUTF8','lengthBytesUTF8','stackTrace','addOnPreRun','addOnInit','addOnPreMain','addOnExit','addOnPostRun','intArrayFromString','intArrayToString','writeStringToMemory','writeArrayToMemory','writeAsciiToMemory','addRunDependency','removeRunDependency']
+
+
+
+
                 -s EXPORTED_FUNCTIONS=[]  导出编译的c++的库中你想要的函数。我这里只需要decode相关函数，
                 -s ALLOW_MEMORY_GROWTH=1  运行内存扩充
       最终编译命令为
 
 
-       * emcc -O0 .libs/libopus.a -s EXPORTED_METHODS="['_opus_decode','_opus_decoder_create','_opus_decoder_destroy']" \
-                                -s EXPORTED_RUNTIME_METHODS=['FS_createFolder','FS_createPath','FS_createDataFile','FS_createPreloadedFile','FS_createLazyFile','FS_createLink','FS_createDevice','FS_unlink','ccall','cwrap','setValue','getValue','ALLOC_NORMAL','ALLOC_STACK','ALLOC_DYNAMIC','ALLOC_NONE','allocate','getMemory','AsciiToString','stringToAscii','UTF8ArrayToString','UTF8ToString','stringToUTF8Array','stringToUTF8','lengthBytesUTF8','stackTrace','addOnPreRun','addOnInit','addOnPreMain','addOnExit','addOnPostRun','intArrayFromString','intArrayToString','writeStringToMemory','writeArrayToMemory','writeAsciiToMemory','addRunDependency','removeRunDependency'] \
+       * emcc -O0 .libs/libopus.so -s EXPORTED_RUNTIME_METHODS="['_opus_decode','_opus_decoder_create','_opus_decoder_destroy']" \
+                                -s EXPORTED_RUNTIME_METHODS="['cwrap','getValue','setValue']" \
                                 -s ALLOW_MEMORY_GROWTH=1 \
                                 -o decoder.js
 5. 进行胶水代码加载wasm
     * 需要注意利用流加载的方式，需要设置响应头 Content-Type：application/wasm
     * 关键问题使用Module进行内存读写和借口调用，代码上传中。。。
+# 胶水代码使用
+1. 将项目中编译好的js html 和 wasm文件，放在web项目的静态路劲下
+2. 使用IDEA启动springboot项目，作为服务端
+3. 通过web形式打开该网站
+# 程度说明
+1. 由于现有公司也是使用的这个解码工具，所以只能出一个demo供大家一起学习。inputData 的pcm数据需要自己实现拿到
+2. 由于我是搞java的，对于c库只是浅显的认知，js掌握的也一般，所以希望大家多多担待
 
    
